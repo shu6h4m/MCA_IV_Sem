@@ -19,7 +19,10 @@ import pandas.io.sql as sqlio
 
 conn = psycopg2.connect(user="postgres", password="2580", host="localhost", database="NorthWind")
 ```
+<br>
 
-![Snap1.png](attachment:Snap1.png)
+# Screenshots :
 
-![Snap2.png](attachment:Snap2.png)
+![Snap1.png](https://github.com/shu6h4m/MCA_IV_Sem/blob/main/Database%20Applications/Assignments/DBA_Assignment1/Snap1.png)
+
+![Snap2.png](https://github.com/shu6h4m/MCA_IV_Sem/blob/main/Database%20Applications/Assignments/DBA_Assignment1/Snap2.png)
