@@ -1,6 +1,6 @@
-# Notes on "The Design of the UNIX Operating System"
+# Notes of "The Design of the UNIX Operating System"
 
-These are my notes on the classic operating systems book: **The Design of the UNIX Operating System** by **Maurice J. Bach**.
+Simplified notes from the classic operating systems book: **The Design of the UNIX Operating System** by **Maurice J. Bach**.
 
 ## Contents
 
@@ -20,6 +20,6 @@ These are my notes on the classic operating systems book: **The Design of the UN
 
 
 
-I read this book in a course taught by **Dr. Vijay Gokhale**.
+I read this book in a course taught by **Dr. Bharti Rana**.
 
-If you feel that corrections are required, feel free to create a PR! :)
+Corrections and updation will be appreciated ☻
