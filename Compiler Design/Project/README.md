@@ -42,4 +42,5 @@ Note: No Need to put semicolon ';' in the syntax as it is handled already ☻
         Syntax Correct
 
 ### 4. Output >>
-![Project Output](https://user-images.githubusercontent.com/37971771/158448897-0731ce8e-02f1-47fd-8f6c-207d159d312b.png)
+![Project Output](https://user-images.githubusercontent.com/37971771/158452587-7c6e49d4-50b7-44b3-a420-fdb87265140f.png)
+
