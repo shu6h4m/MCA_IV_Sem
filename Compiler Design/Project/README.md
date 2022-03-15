@@ -48,8 +48,7 @@ Note: No Need to put semicolon ';' in the syntax as it is handled already ☻
 
 
 <div align="center">
-  Submitted to : <br>
+  << Submitted To >> <br><br>
           Dr. Ankit Rajpal<br>
-          Dept. Of Computer Science<br>
-          Univerity of Delhi
+          Dept. Of Computer Science
 </div>
