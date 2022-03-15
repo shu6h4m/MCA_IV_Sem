@@ -47,12 +47,9 @@ Note: No Need to put semicolon ';' in the syntax as it is handled already ☻
 <hr>
 
 
-<p style="text-align: center;"> Submitted by : Subham Sharma </p>
-
-
 <div align="center">
-  Submitted to :
-          Dr. Ankit Rajpal
-          Dept. Of Computer Science
+  Submitted to : <br>
+          Dr. Ankit Rajpal<br>
+          Dept. Of Computer Science<br>
           Univerity of Delhi
 </div>
