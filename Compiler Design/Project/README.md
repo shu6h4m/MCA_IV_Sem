@@ -9,7 +9,6 @@
   
           DELETE FROM Parties WHERE PartyName='BJP';
           
-Note: No Need to put semicolon ';' in the syntax as it is handled already ☻
 
 ### 2. Assumption >>
 
@@ -21,7 +20,7 @@ Note: No Need to put semicolon ';' in the syntax as it is handled already ☻
   
         can parse delete queries
         can use both and & or in where clause
-        can use <,>,= operations in where clause
+        can use <,>,<=,>=,== operations in where clause
         can parse delete statements without where as well 
           
   Limitations :
