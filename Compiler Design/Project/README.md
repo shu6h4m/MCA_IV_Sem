@@ -24,11 +24,12 @@
         can parse delete statements without where as well 
           
   Limitations :
-  
-        can not use <=,>=
-        can not parse compound sql  
-        cannot use conditions, like , in , between etc
+
+
+        can not parse compound sql
         can only use and and or in where.
+        cannot use conditions, like , in , between etc
+
         
         
  ### 3. Test Cases >>
