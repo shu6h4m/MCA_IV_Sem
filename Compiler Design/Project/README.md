@@ -13,7 +13,7 @@
 ### 2. Assumption >>
 
 
-         Same as standard SQL
+         No other keywords other those used in program.
          
               
   Capabilities :
@@ -27,7 +27,8 @@
   
         can not use <=,>=
         can not parse compound sql  
-        
+        cannot use conditions, like , in , between etc
+        can only use and and or in where.
         
         
  ### 3. Test Cases >>
