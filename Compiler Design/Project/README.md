@@ -13,7 +13,7 @@
 ### 2. Assumption >>
 
 
-         No other keywords other those used in program.
+         No keywords other than those used in program.
          
               
   Capabilities :
