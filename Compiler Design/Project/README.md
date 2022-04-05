@@ -17,7 +17,7 @@
          
               
   Capabilities :
-  
+   
         can parse delete queries
         can use both and & or in where clause
         can use <,>,<=,>=,== operations in where clause
