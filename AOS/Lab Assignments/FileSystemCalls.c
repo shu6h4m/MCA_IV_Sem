@@ -1,249 +1,181 @@
-#include<stdio.h>
-#include<sys/types.h>
-#include <unistd.h>
-#include<fcntl.h>
-#include<stdbool.h>
+#include <iostream>
+#include <string.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <error.h>
+using namespace std;
 
-
-//function declartion
-void create(char *fName);
-int openFile(char *fName);
-int closeFile(int fd);
-void readFile(char *fName);
-void writeFile(char *fName);
-void jump(char *fName);
-bool isExists(char *fName);
-
-void main(){
-    int choice;
-    char fName[100];
-    do
-    {
-        printf("\n1. Create new file\n");
-        printf("2. Open file\n");
-        printf("3. Write to file\n");
-        printf("4. Read from file\n");
-        printf("5. Jump to any location in file\n");
-        printf("6. exit\n");
-        printf("Enter your choice:");
-        scanf("%d",&choice);
-
-        if(choice==1){
-            printf("\nEnter file name:\n");
-            scanf("%s",fName);
-            create(fName); 
-        }
-        else if(choice==2){
-            printf("\nEnter file name:\n");
-            scanf("%s",fName);
-            int fd = openFile(fName); 
-
-            int ch;
-            do{
-                printf("\n1. Write to file\n");
-                printf("2. Read from file\n");
-                printf("3. Jump to any location in file\n");
-                printf("4. Close file\n");  
-                printf("Enter your choice:");
-                scanf("%d",&ch);
-
-                switch (ch)
-                {
-                    case  1:
-                        writeFile(fName); 
-                        break;        
-                    case  2: 
-                        readFile(fName); 
-                        break;
-                    case  3:
-                        jump(fName); 
-                        break;   		      		   		              
-                    case  4:
-                        fd = closeFile(fd);
-                        break;
-                    default: printf("Wrong Choice. Enter again\n");
-                        break;
-                }
-            }while(ch!=4);
-        }
-        
-        else if(choice==3){
-            printf("\nEnter file name:\n");
-            scanf("%s",fName);
-            writeFile(fName); 
-        }
-
-        else if(choice==4){ 
-            printf("\nEnter file name:\n");
-            scanf("%s",fName);
-            readFile(fName); 
-        }
-
-        else if(choice==5){
-            printf("\nEnter file name:\n");
-            scanf("%s",fName);
-            jump(fName); 
-        }
-        else if(choice==6)
-            printf("\nExit");
-        else
-            printf("Wrong Choice. Enter again\n");
-
-    } while (choice != 6);
+//function to create file with given name.if exists asks for user's choice.
+//input:file name
+//return nthing
+void create_files(char fileName[]){
+	int creat_status=creat(fileName,0666);
+	if(creat_status!=-2 && creat_status!=-1)
+	   cout<<"\nFile created successfully!!\n"<<endl;
+	else if(creat_status==-1)
+	   cout<<"\nError in creating file\n"<<endl;
 }
 
-/*
-Purpose:    Function to check if file exits in current directory
-Input:      fName : name of file
-return:     true if file exists otherwise return false
-*/
-bool isExists(char *fName){
-    int fd;
-    if( (fd = open(fName,O_RDONLY) ) == -1)
-        return false;
-    return true;
+
+//function to open file 
+//input:fileName,mode(in which to open the file)
+//returns file descriptor
+
+int open_file(char fileName[]){
+
+   printf("Enter mode in which you want to open file.\n");
+   printf("0 for Read only \n");
+   printf("1 for write only \n");
+   printf("2 for both read and write\n");
+
+   int mode;
+   cin>>mode;
+   int open_code;
+
+   switch(mode){
+      case 0:open_code=open(fileName,O_RDONLY);
+             break;
+      case 1:open_code=open(fileName,O_WRONLY);
+             break;
+      case 2:open_code=open(fileName,O_RDWR);
+             break;
+   }
+   
+   if(open_code==-1)
+	   cout<<"\nError in openeing file"<<endl;
+	return open_code;
+
 }
 
-/*
-Purpose:    Function to create a new file of given name. If file already exists then ask the user
-            and take decision as per the user's requirement. 
-Input:      fName : name of file
-Output:     return nothing just create a new file.
-*/
-void create(char *fName){
-    if(isExists(fName)){
-        int ch;
+
+//function to write to the file,asks user to enter content.
+//also promt user to enter number of bytes to write.
+//parameter:file name to write to.
+//return nthing.
+
+void write_to_file(char fileName[]){
+
+   int open_code=open(fileName,O_WRONLY);
+   if(open_code==-1) {
+      cout<<"\nNo Such File Found !\n"<<endl;
+      return;
+   }
+
+   cout<<"Enter the data you want to write, Press Tab+Enter when done !"<<endl;
+   char buff[1024];
+   scanf("%[^\t]s",buff);
+ 
+   int cnt=strlen(buff);
+   
+   int byteWritten=write(open_code,buff+1,cnt);
+   printf("\n %d Bytes of data written",byteWritten);
+   printf("\n");
+   close(open_code);
+}
+
+
+//function to read to the file,asks user to enter position and byte offset.
+//also promt user to enter number of bytes to read.
+//parameter:file name to read from.
+//return nthing.
+
+void read_from_file(char fileName[]){
+
+    int open_code=open(fileName,O_RDONLY);
+     if(open_code==-1) {
+      cout<<"\nCAN'T READ FROM GIVEN FILE"<<endl;
+      return;
+   }
+
+    cout<<"\nReading Operation : Select Read Position in the file"<<endl;
+    cout<<"_____________________________________________________\n"<<endl;
+    cout<<"To read from Start :             Press 1"<<endl;
+    cout<<"To read from the current :       Press 2"<<endl;
+    cout<<"To read from the end of file :   Press 3"<<endl;
+    cout<<"_____________________________________________________"<<endl;
+    int position;
+    cout<<"\nEnter your choice : ";
+    cin>>position;
     
-        //if file already exists then asking for user action
-        printf("\n\nFile already exists!! \n Please select following option\n");
-        printf("1. Create a new file with new name\n");
-        printf("2. Leave as it is \nEnter choice: ");
-        scanf("%d",&ch);
-        if(ch==1){
-            printf("Enter new file name: ");
-            char newName[50];
-            scanf("%s",newName);
-            create(newName);
-        }          
+    int offset;
+    cout<<"Enter offset : ";
+    cin>>offset;
+    
+    int curr_position;
+    switch(position){
+      case 1:curr_position=lseek(open_code,offset,0);
+             break;
+      case 2:curr_position=lseek(open_code,offset,1);
+             break;
+      case 3:curr_position=lseek(open_code,offset,2);
+             break;
     }
-    else{
-        //create file
-        int fd = open(fName,O_CREAT | O_RDONLY | O_WRONLY | O_RDWR);
-        printf("File created!!\n");
-        close(fd);
-    }
-}
 
-/*
-Purpose:    Function to open the file in read and write mode
-Input:      fName : Name of file
-return:     fd : File Descriptor
-*/
-int openFile(char *fName){
-    if(isExists(fName) == false){
-        char option[1];
-        printf("\nFile not Exists!!\n");
-        printf("Wants to create file?(Y/N) ");
-        scanf("%s",option);
-        if(option[0]=='Y' || option[0]=='y'){
-            create(fName);
-        }   
-    }
-    int fd = open(fName,O_RDWR);
 
-    return fd;
-}
 
-/*
-Purpose:    Function to close current open file
-Input:      fd : File Descriptor
-return:     0 if file colsed
-            -1 if not closed
-*/
-int closeFile(int fd){
-    printf("\nFile closed!!\n");
-    return close(fd);
+   char* buff=(char *) calloc(1024, sizeof(char));
+   int n;
+   int total_char;
+   printf("Enter Number of characters you want to Read : ");
+   cin>>total_char;
+
+   cout<<"\nRequested Output from selected file :"<<endl;
+   cout<<"________________________________________\n"<<endl;
+   while((n=read(open_code,buff,1))>=1){
+        write(STDOUT_FILENO,buff,1);
+        total_char--;
+        if(total_char==0) break;
+   }
+   cout<<endl;
+
+   close(open_code);
+   cout<<"________________________________________\n"<<endl;
 }
 
 
-/*
-Purpose:    function to Jumping to any location in a given file acc. to user specs.(position & offset)  
-Input:      fName : name of file 
-*/
-void writeFile(char *fName){
-    if(!isExists(fName)){
-        char option[1];
-        printf("\nFile not Exists!!\n");
-        printf("Wants to create file?(Y/N) ");
-        scanf("%s",option);
-        if(option[0]=='Y' || option[0]=='y'){
-            create(fName);
-        }
-        else
-            return;
-    }
-    char temp;
-    scanf("%c",&temp); //to clear buffer
-    char data[100];
-    printf("Enter data\n\n"); 
-    scanf("%[^\n]%*c",data);
-    int fd = open(fName, O_RDWR);
-    int len = strlen(data);
-    write(fd,data,len);
-    close(fd);
-    printf("\nData Entered Successfully\n");
-}
+int main(){
+   
+    cout<<"\nSelect Operation You Want to Perform : "<<endl;
+    cout<<"__________________________\n"<<endl;
+          
+          cout<<"To Create file  : Press 1"<<endl;
+          cout<<"To Write file 	: Press 2"<<endl;
+          cout<<"To Read file 	: Press 3"<<endl;
+          cout<<"To Open file 	: Press 4"<<endl;
+    cout<<"__________________________"<<endl;
+    string response="y";
+    int open_code;
 
-/*
-Purpose:    Function to read the content file.
-Input:      fName : name of file
-Output:     show the content of file
-*/
-void readFile(char *fName){
-    if(!isExists(fName)){
-        printf("\nFile not Exists!!\n");
-    }
-    int sz;
-    char c[100];
-    int fd = open(fName, O_RDONLY|O_RANDOM);
-    sz = read(fd, c, 10);
-    c[sz] = '\0'; 
-    printf("\nFile content:\n----------------------------------");
-    printf("\n%s",c);
-    printf("\n----------------------------------\n");
-}
+    while(response=="y"){
 
-/*
-Purpose:    function to Jumping to any location in a given file acc. to user specs.(position & offset)  
-Input:      fName : name of file
-*/
-void jump(char *fName){
-    if (!isExists(fName)){
-            printf("sorry file doesn't exist try again!!!!!\n");
-            return;
-	}
-    int fd = open(fName,O_RDWR);
-    int pos, offset;
-    printf("Enter the offset\n");
-    scanf("%d", &offset);
-    printf("Choose any from given 3 positions\n");
-    printf("1. SEEK_END (It denotes end of the file)\n");
-    printf("2. SEEK_SET (It denotes starting of the file)\n");
-    printf("3. SEEK_CUR (It denotes file pointer�s current position)\n");
-    int op;
-    scanf("%d", &op);
-    switch(op){
-        case 1:
-            pos=SEEK_END;
-            break;
-        case 2:
-            pos=SEEK_SET;
-            break;
-        case 3:pos=SEEK_CUR;
-            break;					   	        	       
-    }
-    int positon = lseek(fd,offset,pos);
-    printf("\nPointer final location according to position & offset specified %ld\n", positon);
-    close(fd);
-}
+          printf("\nEnter Your Choice :  ");
+          int num;
+          scanf("%d",&num);
 
+          while(num<1||num>4){
+            printf("Invalid Choice!\nPlease Enter again : ");
+            cin>>num;
+          }
+          
+          char fileName[1024];
+          printf("Provide a File Name : ");
+          scanf("%s",fileName);
+
+
+          switch(num){
+            case 1: create_files(fileName);
+                        break;
+            case 2: write_to_file(fileName);
+                    	break;
+            case 3: read_from_file(fileName);
+                   	break;
+            case 4: open_code=open_file(fileName);
+                	close(open_code);
+                   	break;
+          }
+          cout<<"\nWant to Perform another Operation?\nPress ( Y ) if Yes else Press ( N ) : ";
+          cin>>response;
+    }
+    
+}
