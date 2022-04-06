@@ -1,26 +1,32 @@
+
 #include <iostream>
 #include <string.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <error.h>
+
 using namespace std;
 
-//function to create file with given name.if exists asks for user's choice.
-//input:file name
-//return nthing
+/*
+Function : To create file with given name.
+Input	 : File name
+*/
+
 void create_files(char fileName[]){
 	int creat_status=creat(fileName,0666);
-	if(creat_status!=-2 && creat_status!=-1)
+	if(creat_status!=-1)
 	   cout<<"\nFile created successfully!!\n"<<endl;
 	else if(creat_status==-1)
 	   cout<<"\nError in creating file\n"<<endl;
 }
 
 
-//function to open file 
-//input:fileName,mode(in which to open the file)
-//returns file descriptor
+/*
+Function  : To open file 
+Input	 :  File Name, mode(in which to open the file)
+Returns :   File descriptor
+*/
 
 int open_file(char fileName[]){
 
@@ -49,11 +55,10 @@ int open_file(char fileName[]){
 }
 
 
-//function to write to the file,asks user to enter content.
-//also promt user to enter number of bytes to write.
-//parameter:file name to write to.
-//return nthing.
-
+/*
+Function : To write to the file,asks user to enter content.
+Parameter: File name to write to.
+*/
 void write_to_file(char fileName[]){
 
    int open_code=open(fileName,O_WRONLY);
@@ -75,10 +80,10 @@ void write_to_file(char fileName[]){
 }
 
 
-//function to read to the file,asks user to enter position and byte offset.
-//also promt user to enter number of bytes to read.
-//parameter:file name to read from.
-//return nthing.
+/*
+Function : To read to the file,asks user to enter position and byte offset.
+Parameter : File name to read from.
+*/
 
 void read_from_file(char fileName[]){
 
